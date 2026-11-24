@@ -1,29 +1,98 @@
 <!doctype html>
 <html lang="uk">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Гра+ — Збери монети</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Лабораторія спрайтів</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#151d33;--text:#eef3ff;--muted:#9eaccb;--accent:#69e3c1}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 0,#1c2c50,var(--bg) 65%);color:var(--text);font:16px system-ui,sans-serif}main{width:min(900px,100%)}header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}h1{margin:0;font-size:clamp(25px,5vw,38px);letter-spacing:-.04em}h1 span{color:var(--accent)}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:var(--panel);border:1px solid #2b3858;border-radius:12px;padding:9px 14px;color:var(--muted)}.stat b{color:var(--text);margin-left:6px;font-variant-numeric:tabular-nums}.stage{position:relative;overflow:hidden;border:1px solid #344363;border-radius:18px;background:#0e172a;box-shadow:0 22px 70px #0008}canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:none}.overlay{position:absolute;inset:0;display:grid;place-items:center;padding:24px;text-align:center;background:#081020c9;backdrop-filter:blur(5px)}.overlay.hidden{display:none}.dialog{max-width:440px}.dialog h2{font-size:clamp(26px,5vw,42px);margin:0 0 8px}.dialog p{color:var(--muted);line-height:1.5}button{border:0;border-radius:12px;padding:12px 20px;color:#07131c;background:var(--accent);font-weight:800;font-size:16px;cursor:pointer}button:hover{filter:brightness(1.08)}footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:13px;color:var(--muted);font-size:14px}.mobile{display:none;gap:8px;justify-content:center;margin-top:14px}.mobile button{min-width:56px;padding:12px;background:#263654;color:var(--text);border:1px solid #405273}@media(max-width:650px){.mobile{display:grid;grid-template-columns:repeat(3,56px);grid-template-rows:repeat(2,48px)}.mobile button:nth-child(1){grid-column:2}.mobile button:nth-child(2){grid-column:1;grid-row:2}.mobile button:nth-child(3){grid-column:2;grid-row:2}.mobile button:nth-child(4){grid-column:3;grid-row:2}}
+:root{color-scheme:dark;--bg:#0e1216;--panel:#161c22;--line:#2b343d;--muted:#93a1ad;--ink:#f3f6f8;--mint:#a9f36b;--blue:#6ed9d0}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -20%,#24322d 0,transparent 50%),var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;padding:36px 22px 54px}.app{max-width:1040px;margin:auto}.eyebrow{font:500 11px 'DM Mono',monospace;letter-spacing:.16em;color:var(--mint);text-transform:uppercase;margin-bottom:12px}h1{font-size:clamp(28px,5vw,48px);letter-spacing:-.055em;line-height:1.02;margin:0 0 10px}.sub{max-width:600px;color:var(--muted);font-size:14px;line-height:1.7;margin:0 0 26px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}.stage,.panel{background:rgba(22,28,34,.92);border:1px solid var(--line);border-radius:14px;overflow:hidden}.stagehead{display:flex;justify-content:space-between;align-items:center;padding:14px 17px;border-bottom:1px solid var(--line);font:11px 'DM Mono',monospace;letter-spacing:.07em;color:var(--muted)}.live{color:var(--mint)}canvas{display:block;width:100%;height:auto;aspect-ratio:720/420;background-color:#111820;background-image:linear-gradient(rgba(153,184,177,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(153,184,177,.055) 1px,transparent 1px);background-size:24px 24px}.footnote{padding:11px 16px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}.panel{padding:18px}.sect{font:500 10px 'DM Mono',monospace;letter-spacing:.13em;color:#82909c;text-transform:uppercase;margin:1px 0 12px}.modes{display:grid;gap:7px;margin-bottom:20px}.mode{display:flex;align-items:center;gap:10px;width:100%;padding:10px 11px;text-align:left;border:1px solid var(--line);border-radius:9px;background:#11171c;color:var(--ink);font:600 13px Manrope,system-ui;cursor:pointer}.mode:hover{border-color:#61736b}.mode.active{border-color:var(--mint);background:#1b2820}.key{display:grid;place-items:center;width:24px;height:24px;flex:none;border-radius:6px;background:#26312c;color:var(--mint);font:12px 'DM Mono',monospace}.rate{margin-left:auto;color:#a4b1b8;font:10px 'DM Mono',monospace}.control{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}.row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:10px}.row output{color:var(--mint);font:12px 'DM Mono',monospace}input[type=range]{width:100%;accent-color:var(--mint);cursor:pointer}.flip{width:100%;padding:10px;border:1px solid #44525c;border-radius:8px;background:#242e35;color:var(--ink);font:700 12px Manrope,system-ui;cursor:pointer}.flip:hover{border-color:var(--mint)}.hint{font-size:11px;color:var(--muted);line-height:1.7;margin:15px 0 0}.hit{margin-top:16px;border-radius:8px;background:#10161a;padding:11px;font-size:11px;line-height:1.65;color:#afbbc1}.hit b{color:var(--blue);font-family:'DM Mono',monospace;font-weight:400}.keyrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.pill{border:1px solid #39444b;border-radius:5px;padding:3px 6px;font:10px 'DM Mono',monospace;color:#c4ced1}@media(max-width:780px){body{padding:24px 14px}.layout{grid-template-columns:1fr}.panel{display:grid;grid-template-columns:1fr 1fr;gap:16px}.panel>section{min-width:0}.control{margin:0}.hit{margin:0}.hint{grid-column:1/-1}.modes{margin:0}}@media(max-width:510px){.panel{grid-template-columns:1fr}.hint{grid-column:auto}}
 </style>
 </head>
-<body><main>
-<header><h1>Гра<span>+</span></h1><div class="stats"><div class="stat">Рахунок <b id="score">0</b></div><div class="stat">Швидкість ворога <b id="speed">120</b> px/с</div></div></header>
-<section class="stage"><canvas id="game" width="960" height="540" aria-label="Ігрове поле"></canvas><div class="overlay" id="overlay"><div class="dialog"><h2 id="message">Збери монети!</h2><p id="help">Керуй синім гравцем за допомогою WASD або стрілок. Уникай червоного переслідувача — з кожними 5 монетами він стає швидшим.</p><button id="start">Почати гру</button></div></div></section>
-<div class="mobile" aria-label="Керування на телефоні"><button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="down">▼</button><button data-dir="right">▶</button></div><footer><span>Керування: WASD / стрілки</span><span>Збери якомога більше монет ✦</span></footer>
+<body><main class="app">
+  <div class="eyebrow">Практична робота · canvas sprite lab</div>
+  <h1>Лабораторія спрайтів</h1>
+  <p class="sub">Один персонаж, чотири стани й жодних зовнішніх зображень. Перемикай анімації, рухай героя, змінюй масштаб і перевіряй хітбокс просто на сцені.</p>
+  <div class="layout">
+    <section class="stage"><div class="stagehead"><span>СЦЕНА · 720 × 420</span><span class="live">● <span id="stateText">СТОЯННЯ</span></span></div><canvas id="scene" width="720" height="420" aria-label="Сцена анімації"></canvas><div class="footnote">Рух: ← → або A / D · стрибок: пробіл · показати hitbox: H</div></section>
+    <aside class="panel">
+      <section><div class="sect">Анімація</div><div class="modes">
+        <button class="mode active" data-mode="idle"><span class="key">1</span> Стояти <span class="rate">5 FPS</span></button>
+        <button class="mode" data-mode="walk"><span class="key">2</span> Крокувати <span class="rate">11 FPS</span></button>
+        <button class="mode" data-mode="run"><span class="key">3</span> Бігти <span class="rate">15 FPS</span></button>
+        <button class="mode" data-mode="jump"><span class="key">4</span> Стрибок <span class="rate">10 FPS</span></button>
+      </div></section>
+      <section class="control"><div class="sect">Масштаб</div><div class="row"><label for="scale">Розмір персонажа</label><output id="scaleOut">100%</output></div><input id="scale" type="range" min="60" max="160" value="100" aria-label="Масштаб персонажа"><div style="height:14px"></div><button class="flip" id="flip">↔ &nbsp; Flip: вимкнено</button></section>
+      <section class="hit"><div class="sect">Поточний hitbox</div><div id="hitInfo"><b>ПРЯМОКУТНИК</b> · ширина 38% · висота 66%</div><div class="keyrow"><span class="pill">H показати</span><span class="pill">4 / Space стрибок</span></div></section>
+      <p class="hint">Кадри намальовані в коді як векторний спрайт 128 × 128 px. Кожна анімація має рівну сітку кадрів; перемикачі змінюють послідовність і FPS.</p>
+    </aside>
+  </div>
 </main>
 <script>
-(()=>{const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),scoreEl=document.getElementById('score'),speedEl=document.getElementById('speed'),overlay=document.getElementById('overlay'),message=document.getElementById('message'),help=document.getElementById('help'),startBtn=document.getElementById('start'),W=canvas.width,H=canvas.height,keys=new Set();let player,enemy,coin,score,running=false,last=0,raf=0,audioCtx;const rand=(a,b)=>a+Math.random()*(b-a);
-function newCoin(){let p;do{p={x:rand(34,W-34),y:rand(34,H-34),r:11}}while(player&&Math.hypot(p.x-player.x,p.y-player.y)<100);coin=p}
-function reset(){score=0;player={x:W*.28,y:H*.5,r:15,speed:260};enemy={x:W*.76,y:H*.5,r:18};newCoin();updateHud()}
-function enemySpeed(){return 120+Math.floor(score/5)*10}function updateHud(){scoreEl.textContent=score;speedEl.textContent=enemySpeed()}
-function coinSound(){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();osc.type='sine';osc.frequency.setValueAtTime(740,audioCtx.currentTime);osc.frequency.exponentialRampToValueAtTime(1180,audioCtx.currentTime+.085);gain.gain.setValueAtTime(.12,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.13);osc.connect(gain);gain.connect(audioCtx.destination);osc.start();osc.stop(audioCtx.currentTime+.14)}catch(e){}}
-function endGame(){running=false;cancelAnimationFrame(raf);message.textContent='Гру завершено!';help.textContent=`Твій результат: ${score} монет. Спробуй ще раз і побий рекорд!`;startBtn.textContent='Грати ще';overlay.classList.remove('hidden')}
-function update(dt){let dx=0,dy=0;if(keys.has('arrowleft')||keys.has('a'))dx--;if(keys.has('arrowright')||keys.has('d'))dx++;if(keys.has('arrowup')||keys.has('w'))dy--;if(keys.has('arrowdown')||keys.has('s'))dy++;const len=Math.hypot(dx,dy)||1;player.x=Math.max(player.r,Math.min(W-player.r,player.x+dx/len*player.speed*dt));player.y=Math.max(player.r,Math.min(H-player.r,player.y+dy/len*player.speed*dt));const ex=player.x-enemy.x,ey=player.y-enemy.y,dist=Math.hypot(ex,ey)||1,v=enemySpeed()*dt;enemy.x+=ex/dist*v;enemy.y+=ey/dist*v;if(Math.hypot(player.x-coin.x,player.y-coin.y)<player.r+coin.r){score++;coinSound();newCoin();updateHud()}if(Math.hypot(player.x-enemy.x,player.y-enemy.y)<player.r+enemy.r)endGame()}
-function circle(x,y,r,color){ctx.save();ctx.shadowColor=color;ctx.shadowBlur=18;ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();ctx.restore()}
-function draw(){ctx.clearRect(0,0,W,H);ctx.fillStyle='#0e172a';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#1c2b47';ctx.lineWidth=1;for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}circle(coin.x,coin.y,coin.r,'#ffd166');ctx.fillStyle='#fff2b8';ctx.font='bold 15px system-ui';ctx.textAlign='center';ctx.fillText('✦',coin.x,coin.y+5);circle(enemy.x,enemy.y,enemy.r,'#ff4d5e');circle(player.x,player.y,player.r,'#55a7ff');ctx.fillStyle='#d8eaff';ctx.font='bold 10px system-ui';ctx.fillText('YOU',player.x,player.y+4)}
-function loop(t){if(!running)return;const dt=Math.min((t-last)/1000||0,.04);last=t;update(dt);draw();if(running)raf=requestAnimationFrame(loop)}
-function start(){cancelAnimationFrame(raf);reset();running=true;overlay.classList.add('hidden');startBtn.textContent='Почати гру';last=performance.now();draw();raf=requestAnimationFrame(loop)}
-window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();keys.add(k)});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>keys.clear());document.querySelectorAll('[data-dir]').forEach(btn=>{const dir=btn.dataset.dir,map={up:'arrowup',down:'arrowdown',left:'arrowleft',right:'arrowright'};btn.addEventListener('pointerdown',e=>{e.preventDefault();keys.add(map[dir])});['pointerup','pointerleave','pointercancel'].forEach(ev=>btn.addEventListener(ev,()=>keys.delete(map[dir])))});startBtn.addEventListener('click',start);reset();draw()})();
+(() => {
+  const W=128,H=128, scene=document.querySelector('#scene'), ctx=scene.getContext('2d');
+  const modes={
+    idle:{label:'СТОЯННЯ',fps:5,frames:4,loop:true,box:{type:'rect',x:.31,y:.21,w:.38,h:.67}},
+    walk:{label:'КРОКУВАННЯ',fps:11,frames:6,loop:true,box:{type:'rect',x:.25,y:.22,w:.50,h:.66}},
+    run:{label:'БІГ',fps:15,frames:6,loop:true,box:{type:'rect',x:.20,y:.24,w:.60,h:.61}},
+    jump:{label:'СТРИБОК',fps:10,frames:4,loop:false,box:{type:'circle',x:.5,y:.54,r:.28}}
+  };
+  let mode='idle',frame=0,elapsed=0,last=performance.now(),scale=1,flip=false,showHit=false,x=360,y=378,vx=0,vy=0,ground=true,spaceArmed=true;
+  const keys=new Set();
+  function rounded(c,x,y,w,h,r,color){c.fillStyle=color;c.beginPath();c.roundRect(x,y,w,h,r);c.fill()}
+  function drawCharacter(c,kind,i){
+    const t=i/(modes[kind].frames),phase=t*Math.PI*2;
+    let bob=0, stride=0, arm=0,lean=0;
+    if(kind==='idle') bob=Math.sin(phase)*1.6;
+    if(kind==='walk'){bob=Math.abs(Math.sin(phase))*3;stride=Math.sin(phase)*13;arm=Math.cos(phase)*15;}
+    if(kind==='run'){bob=Math.abs(Math.sin(phase))*5;stride=Math.sin(phase)*21;arm=Math.cos(phase)*24;lean=5;}
+    if(kind==='jump'){bob=-Math.sin(Math.PI*t)*22;stride=(t<.5?-1:1)*4;arm=-18;lean=2;}
+    const cx=64, foot=111+bob, skin='#f0bd91', ink='#1b272b', shirt='#a9f36b', pants='#456b74';
+    c.save();c.translate(cx,0);c.rotate(lean*Math.PI/180);c.translate(-cx,0);
+    // soft shadow
+    c.fillStyle='rgba(5,10,12,.25)';c.beginPath();c.ellipse(64,116,kind==='jump'?20:22,4,0,0,Math.PI*2);c.fill();
+    // legs, drawn as two fixed-size limbs whose offsets animate per frame
+    c.strokeStyle=pants;c.lineWidth=10;c.lineCap='round';
+    c.beginPath();c.moveTo(57,84+bob);c.lineTo(55+stride*.45,foot-5);c.stroke();
+    c.beginPath();c.moveTo(71,84+bob);c.lineTo(73-stride*.45,foot-5);c.stroke();
+    c.strokeStyle=ink;c.lineWidth=7;
+    c.beginPath();c.moveTo(55+stride*.45,foot-5);c.lineTo(49+stride*.45,foot-3);c.stroke();
+    c.beginPath();c.moveTo(73-stride*.45,foot-5);c.lineTo(79-stride*.45,foot-3);c.stroke();
+    // arms behind torso
+    c.strokeStyle=skin;c.lineWidth=8;
+    c.beginPath();c.moveTo(49,50+bob);c.lineTo(42+arm*.25,69+bob);c.lineTo(44+arm*.35,78+bob);c.stroke();
+    c.beginPath();c.moveTo(79,50+bob);c.lineTo(86-arm*.25,69+bob);c.lineTo(84-arm*.35,78+bob);c.stroke();
+    // torso and small chest patch
+    rounded(c,47,43+bob,34,44,11,shirt);rounded(c,54,53+bob,20,7,3,'#e4ffa9');
+    // neck, head, hair and face
+    rounded(c,59,34+bob,10,12,4,skin);
+    c.fillStyle=skin;c.beginPath();c.arc(64,27+bob,16,0,Math.PI*2);c.fill();
+    c.fillStyle=ink;c.beginPath();c.arc(64,23+bob,16,Math.PI,Math.PI*2);c.lineTo(80,28+bob);c.quadraticCurveTo(74,20+bob,67,21+bob);c.quadraticCurveTo(56,18+bob,49,28+bob);c.closePath();c.fill();
+    c.fillStyle=ink;c.beginPath();c.arc(69,28+bob,1.5,0,Math.PI*2);c.fill();
+    c.strokeStyle='#a96958';c.lineWidth=1.5;c.beginPath();c.arc(67,33+bob,4,.1,1.6);c.stroke();
+    c.restore();
+  }
+  // Create equal 128 x 128 frame cells in an in-memory sprite sheet. No asset is fetched.
+  const sheets={};
+  for(const [name,m] of Object.entries(modes)){
+    const sheet=document.createElement('canvas');sheet.width=W*m.frames;sheet.height=H;const s=sheet.getContext('2d');
+    for(let i=0;i<m.frames;i++){s.save();s.translate(i*W,0);drawCharacter(s,name,i);s.restore();}
+    sheets[name]=sheet;
+  }
+  function setMode(name){mode=name;frame=0;elapsed=0;document.querySelectorAll('.mode').forEach(b=>b.classList.toggle('active',b.dataset.mode===name));document.querySelector('#stateText').textContent=modes[name].label;const b=modes[name].box;document.querySelector('#hitInfo').innerHTML=b.type==='circle'?'<b>КОЛО</b> · радіус 28% кадру':`<b>ПРЯМОКУТНИК</b> · ширина ${Math.round(b.w*100)}% · висота ${Math.round(b.h*100)}%`;}
+  function jump(){if(!ground)return;setMode('jump');ground=false;vy=-460;}
+  function hitbox(){const b=modes[mode].box,sx=128*scale,sy=128*scale,ox=x-sx/2,oy=y-sy;if(b.type==='circle'){ctx.beginPath();ctx.ellipse(ox+sx*b.x,oy+sy*b.y,sx*b.r,sy*b.r,0,0,Math.PI*2);ctx.stroke();}else ctx.strokeRect(ox+sx*b.x,oy+sy*b.y,sx*b.w,sy*b.h);}
+  function tick(now){const dt=Math.min((now-last)/1000,.04);last=now;const speed=mode==='run'?230:mode==='walk'?120:0;vx=(keys.has('ArrowRight')||keys.has('d')?1:0)-(keys.has('ArrowLeft')||keys.has('a')?1:0);if(mode==='idle'||mode==='jump')vx=0;x=Math.max(48,Math.min(scene.width-48,x+vx*speed*dt));if(!ground){vy+=1100*dt;y+=vy*dt;if(y>=378){y=378;vy=0;ground=true;if(mode==='jump')setMode('idle');}}
+    elapsed+=dt;const interval=1/modes[mode].fps;while(elapsed>=interval){elapsed-=interval;frame++;if(frame>=modes[mode].frames){if(modes[mode].loop)frame=0;else frame=modes[mode].frames-1;}}
+    ctx.clearRect(0,0,scene.width,scene.height);ctx.strokeStyle='rgba(168,196,186,.16)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,361);ctx.lineTo(scene.width,361);ctx.stroke();
+    const sheet=sheets[mode],sw=128,sh=128,dw=128*scale,dh=128*scale;ctx.save();ctx.translate(x,y-dh);if(flip)ctx.scale(-1,1);ctx.drawImage(sheet,frame*sw,0,sw,sh,-dw/2,0,dw,dh);ctx.restore();
+    if(showHit){ctx.save();ctx.strokeStyle='#6ed9d0';ctx.lineWidth=2;ctx.setLineDash([5,4]);hitbox();ctx.restore();}
+    requestAnimationFrame(tick);
+  }
+  document.querySelectorAll('.mode').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+  document.querySelector('#scale').addEventListener('input',e=>{scale=Number(e.target.value)/100;document.querySelector('#scaleOut').value=e.target.value+'%';});
+  document.querySelector('#flip').addEventListener('click',e=>{flip=!flip;e.currentTarget.textContent=`↔   Flip: ${flip?'увімкнено':'вимкнено'}`;});
+  window.addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(['arrowleft','arrowright',' '].includes(k))e.preventDefault();if(['1','2','3','4'].includes(k)){setMode(['','idle','walk','run','jump'][Number(k)]);if(k==='4')jump();}if(k===' '&&spaceArmed){spaceArmed=false;jump();}if(k==='h')showHit=!showHit;keys.add(k);});
+  window.addEventListener('keyup',e=>{keys.delete(e.key.toLowerCase());if(e.key===' ')spaceArmed=true;});
+  setMode('idle');requestAnimationFrame(tick);
+})();
 </script></body></html>
+
