@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Гра+ — Збирач монет</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div><p class="eyebrow">АРКАДНА ГРА</p><h1>Збирач монет <span>+</span></h1></div>
+      <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="true">Звук: увімкнено</button>
+    </header>
+
+    <section class="game-card" aria-label="Ігрове поле">
+      <div class="stats" aria-live="polite">
+        <div><span>РАХУНОК</span><strong id="score">0</strong></div>
+        <div><span>ЧАС</span><strong><b id="time">60</b> с</strong></div>
+        <div><span>ШВИДКІСТЬ ВОРОГА</span><strong><b id="speed">120</b> px/с</strong></div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="game" width="900" height="520" aria-label="Ігрове поле: синій гравець збирає монети та уникає червоного ворога"></canvas>
+        <div id="overlay" class="overlay">
+          <div class="overlay-panel">
+            <p class="eyebrow">ЗБИРАЙ МОНЕТИ. УНИКАЙ ВОРОГА.</p>
+            <h2 id="overlayTitle">Готовий грати?</h2>
+            <p id="overlayText">Керування: WASD або стрілки. Ворог переслідує гравця і прискорюється кожні 5 монет.</p>
+            <button id="startButton" class="primary" type="button">Почати гру</button>
+          </div>
+        </div>
+      </div>
+      <footer class="help"><span><i class="dot player-dot"></i>Гравець</span><span><i class="dot coin-dot"></i>Монета</span><span><i class="dot enemy-dot"></i>Ворог</span><span>WASD / ← ↑ → ↓ — рух</span></footer>
+    </section>
+    <p class="credit">Практична робота · Розробка інтерактивного медіа</p>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
+
